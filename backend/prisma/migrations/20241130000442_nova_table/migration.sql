@@ -76,7 +76,7 @@ CREATE TABLE `Pedido` (
     `pessoaId` INTEGER NULL,
     `taxaEntregaId` INTEGER NULL,
     `status` VARCHAR(45) NOT NULL,
-    `numMesa` INTEGER NOT NULL,
+    `numMesa` INTEGER NULL,
     `valTotal` DECIMAL(12, 2) NOT NULL,
     `dataCreate` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `dataUpdate` DATETIME(3) NULL,
@@ -100,6 +100,7 @@ CREATE TABLE `Produto` (
     `categoriaId` INTEGER NOT NULL,
     `nome` VARCHAR(150) NOT NULL,
     `descricao` VARCHAR(500) NULL,
+    `status` VARCHAR(7) NOT NULL DEFAULT 'Ativo',
     `dataCreate` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `dataUpdate` DATETIME(3) NULL,
 

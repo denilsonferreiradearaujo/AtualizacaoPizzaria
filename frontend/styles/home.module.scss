@@ -27,7 +27,7 @@
 .card {
   display: flex; // Habilita o Flexbox
   flex-direction: column; // Organiza os itens na coluna
-  justify-content:center; // Distribui o espaço entre os itens
+  justify-content: center; // Distribui o espaço entre os itens
   background-color: #f9f9f9; // Cor de fundo dos cards
   border: 1px solid #ccc; // Borda leve
   border-radius: 8px; // Bordas arredondadas
@@ -56,9 +56,6 @@
     margin-bottom: 6px; // Adiciona espaço abaixo do título
     font-size: 1rem;
 
-    span{
-
-    }
   }
 }
 
@@ -197,6 +194,7 @@
 }
 
 .button {
+
   background-color: var(--orange-500);
   color: var(--white);
   padding: 10px 20px;
@@ -221,10 +219,86 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 80%;  /* Ajuste para definir o tamanho adequado */
-  max-width: 800px;  /* Limite de largura */
+  width: 80%;
+  /* Ajuste para definir o tamanho adequado */
+  max-width: 800px;
+  /* Limite de largura */
   background-color: white;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cardDetails {
+  display: flex;
+  /* Habilita o Flexbox */
+  flex-wrap: wrap;
+  /* Permite que os itens quebrem para a próxima linha, se necessário */
+  gap: 15px;
+  /* Espaçamento entre os itens */
+  padding: 10px;
+  /* Padding interno para os itens */
+}
+
+
+.cardDetails input {
+  margin-right: 10px;
+  /* Espaçamento entre o input e o texto */
+}
+
+.quantityControl {
+  display: flex; /* Flexbox para controle de quantidade */
+  align-items: center; /* Alinha verticalmente */
+  justify-content: center; /* Centraliza horizontalmente */
+  gap: 10px; /* Espaçamento entre os botões e o valor */
+}
+
+.quantityButton {
+  display: flex;
+  align-items: center; /* Centraliza o texto verticalmente */
+  justify-content: center; /* Centraliza o texto horizontalmente */
+  background-color: #4CAF50; /* Cor de fundo do botão */
+  color: white; /* Cor do texto */
+  border: none; /* Remove bordas */
+  border-radius: 4px; /* Bordas arredondadas */
+  padding: 4px; /* Padding interno */
+  cursor: pointer; /* Cursor de pointer ao passar o mouse */
+  transition: background-color 0.3s; /* Transição suave */
+}
+
+.quantityButton:disabled {
+  background-color: #ccc; /* Cor para botões desabilitados */
+  cursor: not-allowed; /* Cursor de não permitido */
+}
+
+.quantityValue {
+  font-size: 1rem; /* Tamanho da fonte para o valor */
+}
+
+
+
+.quantityButton:disabled {
+  background-color: #ccc; /* Cor para botões desabilitados */
+  cursor: not-allowed; /* Cursor de não permitido */
+}
+
+.quantityValue {
+  font-size: 1rem; /* Tamanho da fonte para o valor */
+}
+
+.addButton {
+  background-color: #4CAF50; /* Cor de fundo para o botão de adicionar */
+  color: white; /* Cor do texto */
+  border: none; /* Remove bordas */
+  border-radius: 4px; /* Bordas arredondadas */
+  padding: 10px; /* Padding interno */
+  cursor: pointer; /* Cursor de pointer ao passar o mouse */
+  margin-top: 10px; /* Margem superior para espaçamento */
+}
+
+.addButton:hover {
+  background-color: #45a049; /* Cor ao passar o mouse */
+}
+.quantityButton:hover {
+  background-color: #45a049; /* Cor ao passar o mouse */
 }

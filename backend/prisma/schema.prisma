@@ -86,7 +86,7 @@ model Pedido {
   pessoaId     Int?
   taxaEntregaId Int?
   status       String       @db.VarChar(45)
-  numMesa      Int?          @map("numMesa")
+  numMesa      Int?         @default(0) @map("numMesa")
   valTotal     Decimal      @db.Decimal(12, 2) @map("valTotal")
   dataCreate   DateTime     @default(now()) @map("dataCreate")
   dataUpdate   DateTime?    @map("dataUpdate")

@@ -266,9 +266,9 @@ const Checkout: React.FC = () => {
             // Monta o payload para envio
             const payload = {
                 pessoaId: 1, // Ajuste conforme sua lógica
-                taxaEntregaId: 1, // Ajuste conforme sua lógica
+                // taxaEntregaId: 1, // Ajuste conforme sua lógica
                 status: "Aberto",
-                numMesa: "", // Ajuste conforme sua lógica
+                // numMesa: "", // Ajuste conforme sua lógica
                 valTotal: cart.reduce((total, item) => total + item.preco * item.quantidade, 0),
                 items: cart.map((item) => ({
                     produtoId: item.produtoId,

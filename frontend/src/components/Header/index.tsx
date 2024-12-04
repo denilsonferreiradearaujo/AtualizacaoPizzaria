@@ -36,6 +36,10 @@ export function Header(){
                         <a>Usuários</a>
                     </Link>
 
+                    <Link legacyBehavior href='/taxaEntrega'>
+                        <a>Taxa de Entrega</a>
+                    </Link>
+
                     <button onClick={signOut}>
                         <FiLogOut color='#413F46' size={24}/>
                     </button>

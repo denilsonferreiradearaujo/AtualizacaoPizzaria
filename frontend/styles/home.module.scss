@@ -302,3 +302,59 @@
 .quantityButton:hover {
   background-color: #45a049; /* Cor ao passar o mouse */
 }
+
+
+
+// BANNER CARROUSEL COMEÇA AQUI
+.baner {
+  overflow: hidden;
+  position: relative;
+}
+
+.baner img {
+  transition: opacity 2s ease-in-out;
+}
+
+.carouselContainer {
+  position: relative;
+  overflow: hidden;
+  width: 85%;
+  height: 350px;
+  margin: 0 auto; /* Centraliza o contêiner horizontalmente */
+  display: flex;
+
+}
+
+.carouselTrack {
+  display: flex;
+  transition: transform 0.5s ease-in-out; // Controle a suavidade
+  will-change: transform; // Melhor desempenho
+}
+
+.carouselImage {
+  flex-shrink: 0;
+  width: 100%; // Mesma largura que o contêiner
+  height: 100%;
+}
+
+.indicators {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  background-color: #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.indicator.active {
+  background-color: #000; // Cor ativa
+}

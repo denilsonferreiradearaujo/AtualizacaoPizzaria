@@ -1,0 +1,155 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Aumenta a opacidade do fundo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .modal {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px; /* Aumento do raio para cantos mais arredondados */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Sombra mais suave e mais pronunciada */
+    max-width: 500px;
+    width: 100%;
+    transition: transform 0.3s ease-out; /* Transição suave para animação */
+  }
+  
+  .modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #f1f1f1;
+    padding-bottom: 10px;
+  }
+  
+  .closeButton {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #999; /* Cor mais suave para o botão */
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  
+  .closeButton:hover {
+    color: #333; /* Cor mais escura quando o botão é hover */
+  }
+  
+  .modalBody {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .inputGroup {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .inputGroup label {
+    font-weight: 600;
+    color: #333; /* Cor mais forte para o texto */
+    margin-bottom: 8px;
+  }
+  
+  .inputGroup input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .inputGroup input:focus {
+    border-color: #4CAF50; /* Cor mais destacada ao focar */
+    outline: none;
+  }
+  
+  .modalFooter {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 25px;
+  }
+  
+  .buttonSave, .buttonCancel {
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  .buttonSave {
+    background-color: #4CAF50;
+    color: white;
+    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.2); /* Sombra suave para o botão */
+  }
+  
+  .buttonSave:hover {
+    background-color: #45a049; /* Cor de hover para o botão de salvar */
+  }
+  
+  .buttonCancel {
+    background-color: #f44336;
+    color: white;
+    box-shadow: 0 4px 10px rgba(244, 67, 54, 0.2);
+  }
+  
+  .buttonCancel:hover {
+    background-color: #e53935; /* Cor de hover para o botão de cancelar */
+  }
+
+  .inputWrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  .inputWrapper input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    padding-left: 25px; /* Adiciona espaço para o sufixo à esquerda */
+  }
+  
+  .suffix {
+    font-size: 14px;
+    color: #999;
+    position: absolute;
+    left: 5px; /* Ajusta a posição do sufixo à esquerda */
+    pointer-events: none; /* Impede que o sufixo interfira na digitação */
+  }
+  
+  @media (max-width: 768px) {
+    .modal {
+      padding: 20px;
+      max-width: 90%;
+    }
+  
+    .modalHeader {
+      margin-bottom: 15px;
+    }
+  
+    .inputGroup input {
+      font-size: 14px;
+    }
+  
+    .buttonSave, .buttonCancel {
+      font-size: 14px;
+    }
+  }
+  

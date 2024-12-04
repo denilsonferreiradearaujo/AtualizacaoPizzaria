@@ -5,6 +5,7 @@ import styles from './styles.module.scss';
 import { setupAPICliente } from '@/src/services/api';
 import { toast } from 'react-toastify';
 import { canSSRAuth } from '@/src/utils/canSSRAuth';
+import { TaxaEntregaEditModal } from '../../components/taxaEntregaEditModal';
 
 interface TaxaEntrega {
   id: number;
@@ -18,6 +19,8 @@ export default function TaxaEntrega() {
   const [distanciaMax, setDistanciaMax] = useState('');
   const [valor, setValor] = useState('');
   const [viewTaxaEntrega, setViewTaxaEntrega] = useState<TaxaEntrega[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedTaxa, setSelectedTaxa] = useState<TaxaEntrega | null>(null);
 
   async function fetchTaxaEntrega() {
     const apiCliente = setupAPICliente();
@@ -63,6 +66,29 @@ export default function TaxaEntrega() {
     } catch (error) {
       toast.error('Erro ao excluir a taxa de entrega');
     }
+  };
+
+  const handleOpenModal = (taxa: TaxaEntrega) => {
+    setSelectedTaxa(taxa);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedTaxa(null);
+    setIsModalOpen(false);
+  };
+
+  const handleSaveTaxa = (updatedTaxa: TaxaEntrega) => {
+    const apiCliente = setupAPICliente();
+    apiCliente
+      .put(`/updateTaxaEntrega/${updatedTaxa.id}`, updatedTaxa)
+      .then(() => {
+        toast.success('Taxa de entrega atualizada com sucesso');
+        fetchTaxaEntrega(); // Atualiza a lista de taxas
+      })
+      .catch(() => {
+        toast.error('Erro ao atualizar a taxa de entrega');
+      });
   };
 
   return (
@@ -115,6 +141,12 @@ export default function TaxaEntrega() {
                 </div>
                 <div className={styles.buttons}>
                   <button
+                    className={styles.buttonEdit}
+                    onClick={() => handleOpenModal(taxa)}
+                  >
+                    Editar
+                  </button>
+                  <button
                     className={styles.buttonDelete}
                     onClick={() => handleDelete(taxa.id)}
                   >
@@ -126,6 +158,14 @@ export default function TaxaEntrega() {
           </ul>
         </div>
       </div>
+
+      {isModalOpen && selectedTaxa && (
+        <TaxaEntregaEditModal
+        taxa={selectedTaxa}
+        onClose={handleCloseModal}
+        onSave={handleSaveTaxa}  // Passando a função para salvar a taxa
+      />
+      )}
     </>
   );
 }

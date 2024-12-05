@@ -7,6 +7,8 @@ import { toast } from 'react-toastify';
 
 import logoImg from '../../public/logo.png';
 import baner from '../../public/baner.jpg';
+import banner02 from '../../public/banner02.jpg';
+import banner03 from '../../public/banner03.jpg';
 import calabresaImg from '../../public/calabresa.png'; // Pizzas Salgadas
 import alohoPoroImg from '../../public/alhoPorocomSalada.png';
 import portuguesaImg from '../../public/Portuguesa.png';
@@ -145,7 +147,7 @@ export default function Home() {
   const handleClose = () => setOpen(false);
 
   // banber começa aqui
-  const images = [baner, calabresaImg, pacoca];
+  const images = [baner, banner02, banner03];
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {

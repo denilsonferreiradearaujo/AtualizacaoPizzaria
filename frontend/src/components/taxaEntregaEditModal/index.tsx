@@ -19,13 +19,47 @@ export const TaxaEntregaEditModal: React.FC<TaxaEntregaEditModalProps> = ({ taxa
     const [distanciaMax, setDistanciaMax] = useState(taxa.distanciaMax.toString());
     const [valor, setValor] = useState(taxa.valor);
 
-    // Função para formatar os valores antes de enviar
+    // Função para formatar o valor do preço
+    const formatPrice = (value: string): string => {
+        if (!value.trim()) return 'R$ 0,00'; // Retorna vazio caso o valor esteja vazio ou apenas espaços
+
+        // Remove qualquer coisa que não seja número
+        const cleanValue = value.replace(/\D/g, '');
+        // Converte para número e ajusta a vírgula
+        const numericValue = (parseInt(cleanValue, 10) / 100).toFixed(2);
+        return `R$ ${numericValue.replace('.', ',')}`;
+    };
+
+    // Função para preparar o preço para envio
+    const parsePriceForSubmission = (price: string): string => {
+        return price.replace(/[^\d,]/g, '').replace(',', '.').replace('R$', '').trim();
+    };
+
+    // Função para lidar com a alteração do valor
+    const handleValorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let rawValue = e.target.value;
+
+        // Remove o 'R$' para manipulação interna
+        rawValue = rawValue.replace('R$', '').trim();
+
+        // Apenas números e vírgulas são permitidos
+        const filteredValue = rawValue.replace(/[^\d,]/g, '');
+
+        // Armazena o valor sem a formatação
+        setValor(filteredValue);
+
+        // Formata o valor com a vírgula
+        const formattedValue = formatPrice(filteredValue);
+        e.target.value = formattedValue; // Atualiza o valor exibido no input
+    };
+
+    // Função para salvar os dados formatados
     const handleSave = () => {
         const updatedTaxa: TaxaEntrega = {
             ...taxa,
             distanciaMin: parseFloat(distanciaMin), // Convertendo para número
             distanciaMax: parseFloat(distanciaMax), // Convertendo para número
-            valor: parseFloat(valor.replace('R$', '').trim()).toString(), // Remover o 'R$' e converter para número
+            valor: parsePriceForSubmission(valor), // Converte o valor para o formato correto antes de salvar
         };
 
         onSave(updatedTaxa); // Chama a função onSave passando a taxa atualizada.
@@ -45,28 +79,27 @@ export const TaxaEntregaEditModal: React.FC<TaxaEntregaEditModalProps> = ({ taxa
                     <div className={styles.inputGroup}>
                         <label htmlFor="distanciaMin">Distância Mínima</label>
                         <div className={styles.inputWrapper}>
+                            <span className={styles.prefix}>Km</span>
                             <input
                                 type="number"
                                 id="distanciaMin"
                                 value={distanciaMin}
                                 onChange={(e) => setDistanciaMin(e.target.value)}
-                                placeholder="Ex: 10" // Sugestão de valor
+                                placeholder="10" // Sugestão de valor
                             />
-                            <span className={styles.suffix}>Km</span>
-                            <span className={styles.suffix}>Km</span>
                         </div>
                     </div>
                     <div className={styles.inputGroup}>
                         <label htmlFor="distanciaMax">Distância Máxima</label>
                         <div className={styles.inputWrapper}>
+                            <span className={styles.prefix}>Km</span>
                             <input
                                 type="number"
                                 id="distanciaMax"
                                 value={distanciaMax}
                                 onChange={(e) => setDistanciaMax(e.target.value)}
-                                placeholder="Ex: 50" // Sugestão de valor
+                                placeholder="50" // Sugestão de valor
                             />
-                            <span className={styles.suffix}>Km</span>
                         </div>
                     </div>
                     <div className={styles.inputGroup}>
@@ -75,8 +108,8 @@ export const TaxaEntregaEditModal: React.FC<TaxaEntregaEditModalProps> = ({ taxa
                             <input
                                 type="text"
                                 id="valor"
-                                value={`R$ ${valor}`}
-                                onChange={(e) => setValor(e.target.value.replace('R$', '').trim())} // Remover 'R$' antes de salvar
+                                value={valor ? formatPrice(valor) : 'R$ 0,00'} // Exibe o valor formatado
+                                onChange={handleValorChange} // Atualiza o valor ao digitar
                                 placeholder="Ex: 25,00" // Sugestão de valor
                             />
                             <span className={styles.suffix}></span>

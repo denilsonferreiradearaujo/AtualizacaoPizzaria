@@ -25,11 +25,11 @@ export function Header(){
                         <a>Dashboard</a>
                     </Link>
                     <Link legacyBehavior href='/category'>
-                        <a>Categoria</a>
+                        <a>Categorias</a>
                     </Link>
 
                     <Link legacyBehavior href='/product'>
-                        <a>Cardápio</a>
+                        <a>Produtos</a>
                     </Link>
 
                     <Link legacyBehavior href='/listUsers'>
@@ -38,6 +38,10 @@ export function Header(){
 
                     <Link legacyBehavior href='/taxaEntrega'>
                         <a>Taxa de Entrega</a>
+                    </Link>
+
+                    <Link legacyBehavior href='/PDV'>
+                        <a>PDV</a>
                     </Link>
 
                     <button onClick={signOut}>

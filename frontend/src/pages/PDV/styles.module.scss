@@ -1,0 +1,89 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+}
+
+.header {
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    font-size: 24px;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+}
+
+.productList {
+    flex: 1;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.cart {
+    flex: 1;
+    background: #f1f1f1;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    padding: 15px;
+}
+
+.productItem, .cartItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.productItem:hover, .cartItem:hover {
+    background: #f0f0f0;
+}
+
+.total {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.button {
+    background: #f00;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.button:hover {
+    background: #c00;
+}
+
+.finalizeButton {
+    width: 100%;
+    background: #007bff;
+    color: #fff;
+    padding: 10px 0;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.finalizeButton:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}

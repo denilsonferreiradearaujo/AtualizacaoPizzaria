@@ -83,7 +83,9 @@ export default function DashBoard({ orders }: HomeProps) {
                                         onClick={() => handleOpenModal(item)}
                                         style={{ cursor: 'pointer' }}
                                     >
-                                        <h3 className={styles.cardTitle}>Mesa {item.numMesa}</h3>
+                                        <h3 className={styles.cardTitle}>
+                                            {item.numMesa === 0 ? "Pedido Delivery" : `Mesa número ${item.numMesa}`}
+                                        </h3>
                                         <button
                                             className={styles.finishButton}
                                             onClick={(e) => {
@@ -110,7 +112,9 @@ export default function DashBoard({ orders }: HomeProps) {
                                         onClick={() => handleOpenModal(item)} // Adiciona a ação de clicar para abrir o modal
                                         style={{ cursor: 'pointer' }}
                                     >
-                                        <h3 className={styles.cardTitle}>Mesa {item.numMesa}</h3>
+                                        <h3 className={styles.cardTitle}>
+                                            {item.numMesa === 0 ? "Pedido Delivery" : `Mesa número ${item.numMesa}`}
+                                        </h3>
                                     </section>
                                 ))
                             )}

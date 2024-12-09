@@ -1,6 +1,7 @@
 import { useState, useEffect, FormEvent } from 'react';
 import Head from 'next/head';
 import { Header } from '@/src/components/Header';
+import { Footer } from '@/src/components/Footer';
 import styles from './styles.module.scss';
 import { setupAPICliente } from '@/src/services/api';
 import { toast } from 'react-toastify';
@@ -138,6 +139,7 @@ export default function Category() {
         </div>
 
       </div>
+      <Footer/>
     </>
   );
 }

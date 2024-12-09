@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import styles from './styles.module.scss';
+import Head from 'next/head';
+import { Header } from '@/src/components/Header';
+import { Footer } from '@/src/components/Footer';
 
 interface Product {
     id: number;
@@ -34,51 +37,58 @@ const PDV: React.FC = () => {
     };
 
     return (
-        <div className={styles.container}>
-            <header className={styles.header}>PDV - Sistema de Vendas</header>
-            <div className={styles.content}>
-                <div className={styles.productList}>
-                    <h2>Produtos</h2>
-                    {products.map((product) => (
-                        <div key={product.id} className={styles.productItem}>
-                            <span>{product.name}</span>
-                            <span>R$ {product.price.toFixed(2)}</span>
-                            <button
-                                className={styles.button}
-                                onClick={() => addToCart(product)}
-                            >
-                                Adicionar
-                            </button>
-                        </div>
-                    ))}
-                </div>
-                <div className={styles.cart}>
-                    <h2>Carrinho</h2>
-                    {cart.map((product, index) => (
-                        <div key={index} className={styles.cartItem}>
-                            <span>{product.name}</span>
-                            <span>R$ {product.price.toFixed(2)}</span>
-                            <button
-                                className={styles.button}
-                                onClick={() => removeFromCart(product.id)}
-                            >
-                                Remover
-                            </button>
-                        </div>
-                    ))}
-                    <div className={styles.total}>
-                        Total: R$ {calculateTotal()}
+        <>
+            <Header />
+            <Head>
+                <title>Lista de Usuários</title>
+            </Head>
+            <div className={styles.container}>
+                <header className={styles.header}>PDV - Sistema de Vendas</header>
+                <div className={styles.content}>
+                    <div className={styles.productList}>
+                        <h2>Produtos</h2>
+                        {products.map((product) => (
+                            <div key={product.id} className={styles.productItem}>
+                                <span>{product.name}</span>
+                                <span>R$ {product.price.toFixed(2)}</span>
+                                <button
+                                    className={styles.button}
+                                    onClick={() => addToCart(product)}
+                                >
+                                    Adicionar
+                                </button>
+                            </div>
+                        ))}
                     </div>
-                    <button
-                        className={styles.finalizeButton}
-                        onClick={finalizeSale}
-                        disabled={cart.length === 0}
-                    >
-                        Finalizar Venda
-                    </button>
+                    <div className={styles.cart}>
+                        <h2>Carrinho</h2>
+                        {cart.map((product, index) => (
+                            <div key={index} className={styles.cartItem}>
+                                <span>{product.name}</span>
+                                <span>R$ {product.price.toFixed(2)}</span>
+                                <button
+                                    className={styles.button}
+                                    onClick={() => removeFromCart(product.id)}
+                                >
+                                    Remover
+                                </button>
+                            </div>
+                        ))}
+                        <div className={styles.total}>
+                            Total: R$ {calculateTotal()}
+                        </div>
+                        <button
+                            className={styles.finalizeButton}
+                            onClick={finalizeSale}
+                            disabled={cart.length === 0}
+                        >
+                            Finalizar Venda
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
+            <Footer />
+        </>
     );
 };
 

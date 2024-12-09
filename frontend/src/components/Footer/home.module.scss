@@ -2,16 +2,16 @@
     width: 100%;
     background-color: #272626;
     color: #ffffff;
-    padding: 50px 20px;
+    padding: 15px 20px;
     text-align: center;
-    
-    
+    height: 5%;
 }
 
 .footerContent {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
 }
 
 .footerNav {
@@ -35,6 +35,7 @@
 
 .socialContainer {
     text-align: center;
+    margin-top: -98px;
 }
 
 .socialContainer p {
@@ -57,4 +58,12 @@
 .imgInstagram {
     position: relative;
     bottom: 0px; /* Move o ícone 30 pixels para baixo */
+}
+
+.footerColun {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 50px;
 }

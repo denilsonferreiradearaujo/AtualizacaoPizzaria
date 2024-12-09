@@ -65,4 +65,6 @@ router.post("/createPedido", new CreatePedidoController().handle); // [RF007] - 
 router.get("/listPedidos", new ListAllPedidosController().handle); // [RF004] - Visualização de histórico de pedidos ( tela da produção )
 router.put("/pedido/status/:id", new UpdatePedidoStatusController().handle); // [RF023] - Atualização de pedido delivery
 
+// PDV
+
 export { router };

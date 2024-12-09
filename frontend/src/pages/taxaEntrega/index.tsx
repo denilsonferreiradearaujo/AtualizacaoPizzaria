@@ -32,6 +32,20 @@ export default function TaxaEntrega() {
     fetchTaxaEntrega();
   }, []);
 
+  // Função para formatar o valor do preço
+  const formatPrice = (value: string): string => {
+    if (!value.trim()) return 'R$ 0,00'; // Retorna vazio caso o valor esteja vazio ou apenas espaços
+  
+    const cleanValue = value.replace(/\D/g, ''); // Remove qualquer coisa que não seja número
+    const numericValue = (parseInt(cleanValue, 10) / 100).toFixed(2); // Converte para número e ajusta a vírgula
+    return `R$ ${numericValue.replace('.', ',')}`;
+  };
+
+  // Função para preparar o preço para envio
+  const parsePriceForSubmission = (price: string): string => {
+    return price.replace(/[^\d,]/g, '').replace(',', '.').replace('R$', '').trim();
+  };
+
   async function handleRegister(event: FormEvent) {
     event.preventDefault();
 
@@ -42,10 +56,11 @@ export default function TaxaEntrega() {
 
     try {
       const apiCliente = setupAPICliente();
+      const formattedPrice = parsePriceForSubmission(valor); // Formata o valor antes de enviar
       await apiCliente.post('/addTaxaEntrega', {
         distanciaMin: parseFloat(distanciaMin),
         distanciaMax: parseFloat(distanciaMax),
-        valor,
+        valor: formattedPrice,
       });
       toast.success('Taxa de entrega cadastrada com sucesso');
       setDistanciaMin('');
@@ -106,38 +121,41 @@ export default function TaxaEntrega() {
           </div>
 
           <form className={styles.form} onSubmit={handleRegister}>
+            <div className={styles.inputWrapper}>
+              <span className={styles.prefix}>Km</span>
+              <input
+                type="number"
+                placeholder="Distância Mínima"
+                value={distanciaMin}
+                onChange={(e) => setDistanciaMin(e.target.value)}
+              />
+            </div>
+            <div className={styles.inputWrapper}>
+              <span className={styles.prefix}>Km</span>
+              <input
+                type="number"
+                placeholder="Distância Máxima"
+                value={distanciaMax}
+                onChange={(e) => setDistanciaMax(e.target.value)}
+              />
+            </div>
             <input
-              className={styles.input}
-              type="number"
-              placeholder="Distância Mínima (km)"
-              value={distanciaMin}
-              onChange={(e) => setDistanciaMin(e.target.value)}
-            />
-            <input
-              className={styles.input}
-              type="number"
-              placeholder="Distância Máxima (km)"
-              value={distanciaMax}
-              onChange={(e) => setDistanciaMax(e.target.value)}
-            />
-            <input
-              className={styles.input}
-              type="number"
+              className={styles.inputPrice}
+              type="text"
               placeholder="Valor (R$)"
               value={valor}
-              onChange={(e) => setValor(e.target.value)}
+              onChange={(e) => setValor(formatPrice(e.target.value))} // Aplica a formatação enquanto o usuário digita
             />
             <button type="submit" className={styles.buttonAdd}>
               Adicionar Taxa
             </button>
           </form>
-
           <ul className={styles.list}>
             {viewTaxaEntrega.map((taxa) => (
               <li key={taxa.id} className={styles.listItem}>
                 <div className={styles.listItemContent}>
                   <p>Distância: {taxa.distanciaMin} - {taxa.distanciaMax} km</p>
-                  <p>Valor: R$ {parseFloat(taxa.valor).toFixed(2)}</p>
+                  <p>Valor: {formatPrice(taxa.valor)}</p> {/* Exibe o valor formatado */}
                 </div>
                 <div className={styles.buttons}>
                   <button
@@ -161,10 +179,10 @@ export default function TaxaEntrega() {
 
       {isModalOpen && selectedTaxa && (
         <TaxaEntregaEditModal
-        taxa={selectedTaxa}
-        onClose={handleCloseModal}
-        onSave={handleSaveTaxa}  // Passando a função para salvar a taxa
-      />
+          taxa={selectedTaxa}
+          onClose={handleCloseModal}
+          onSave={handleSaveTaxa} // Passando a função para salvar a taxa
+        />
       )}
     </>
   );

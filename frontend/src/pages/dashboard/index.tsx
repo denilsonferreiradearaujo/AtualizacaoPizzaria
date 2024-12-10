@@ -6,6 +6,8 @@ import { Header } from "@/src/components/Header";
 import { FiRefreshCcw } from "react-icons/fi";
 import { setupAPICliente } from '../../services/api';
 import { ModalOrder } from '../../components/ModalOrder';
+import { redirect } from "next/dist/server/api-utils";
+import { link } from "fs";
 
 type OrderProps = {
     id: string,
@@ -84,7 +86,7 @@ export default function DashBoard({ orders }: HomeProps) {
                                         style={{ cursor: 'pointer' }}
                                     >
                                         <h3 className={styles.cardTitle}>
-                                            {item.numMesa === 0 ? "Pedido Delivery" : `Mesa número ${item.numMesa}`}
+                                            {item.numMesa === 0 ? "Pedido Delivery" : `Mesa ${item.numMesa}`}
                                         </h3>
                                         <button
                                             className={styles.finishButton}
@@ -93,7 +95,7 @@ export default function DashBoard({ orders }: HomeProps) {
                                                 handleFinishItem(item.id);
                                             }}
                                         >
-                                            Finalizar
+                                            Pedido Pronto
                                         </button>
                                     </section>
                                 ))
@@ -101,9 +103,9 @@ export default function DashBoard({ orders }: HomeProps) {
                         </div>
 
                         <div className={styles.column}>
-                            <h2>Pedidos Finalizados:</h2>
+                            <h2>Pedidos Prontos:</h2>
                             {pedidosFinalizados.length === 0 ? (
-                                <span className={styles.emptyList}>Nenhum pedido finalizado...</span>
+                                <span className={styles.emptyList}>Nenhum pedido Pronto...</span>
                             ) : (
                                 pedidosFinalizados.map(item => (
                                     <section
@@ -113,8 +115,17 @@ export default function DashBoard({ orders }: HomeProps) {
                                         style={{ cursor: 'pointer' }}
                                     >
                                         <h3 className={styles.cardTitle}>
-                                            {item.numMesa === 0 ? "Pedido Delivery" : `Mesa número ${item.numMesa}`}
+                                            {item.numMesa === 0 ? "Pedido Delivery" : `Mesa ${item.numMesa}`}
                                         </h3>
+                                        <button
+                                            className={styles.finishButton}
+                                            onClick={(e) => {
+                                                e.stopPropagation(); // Impede que o clique no botão finalize o pedido e abra o modal ao mesmo tempo
+                                                window.location.href = `/PDV?id=${item.id}`;
+                                            }}
+                                        >
+                                            Pagamento
+                                        </button>
                                     </section>
                                 ))
                             )}

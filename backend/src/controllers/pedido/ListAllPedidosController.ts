@@ -1,23 +1,5 @@
-// import { Request, Response } from 'express';
-// import { ListAllPedidosService } from '../../services/pedido/ListAllPedidosService';
-
-// class ListAllPedidosController {
-//   async handle(req: Request, res: Response) {
-//     const service = new ListAllPedidosService();
-//     const pedidos = await service.execute();
-
-//     return res.json(pedidos);
-//   }
-// }
-
-// export { ListAllPedidosController };
-
-
-
-
-
 import { Request, Response } from 'express';
-import { ListAllPedidosService } from '../../services/pedido/ListAllPedidosService';
+import { ListAllPedidosService} from '../../services/pedido/ListAllPedidosService';
 
 class ListAllPedidosController {
   async handle(req: Request, res: Response) {

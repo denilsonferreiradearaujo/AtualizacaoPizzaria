@@ -94,7 +94,7 @@
         top: 0;
         width: 8px; /* Largura da linha verde */
         height: 100%; /* Altura total do card */
-        background-color: #28a745; /* Cor verde */
+        background-color: #007bff; /* Cor verde */
         border-radius: 0.3rem 0 0 0.3rem; /* Arredondamento do canto */
     }
 
@@ -109,15 +109,21 @@
         font-size: 0.9rem; /* Tamanho menor para o botão */
         padding: 6px 10px; /* Ajusta o espaçamento do botão */
         background-color: #3fffa3;
-        color: white;
+        color: rgb(0, 0, 0);
         border: none;
         cursor: pointer;
         border-radius: 4px;
         margin-left: auto; /* Faz o botão ficar à direita */
-        transition: background-color 0.3s;
-
+        transition: background-color 0.2s ease, transform 0.2s ease;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+      
         &:hover {
-            background-color: #32d78d;
+            // background-color: #32d78d;
+            background-color: red;
+            transform: translateY(-2px);
+            color: rgb(255, 255, 255);
+
+  
         }
     }
 

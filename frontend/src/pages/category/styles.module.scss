@@ -41,11 +41,12 @@
 .buttonAdd {
     height: 40px;
     border: 0;
-    background-color: #FFC107;
+    background-color: #3fffa3;
     font-weight: bold;
     font-size: 1rem;
     border-radius: 0.3rem;
-    color: var(--dark-700);
+    // color: var(--dark-700);
+    color: black;
     margin-left: 0.5rem; /* Espaçamento entre o input e o botão */
     flex-basis: 20%; /* Define o botão como 5% do espaço */
     display: flex;
@@ -53,6 +54,14 @@
     justify-content: center;
     padding: 0; /* Remove o padding interno */
     width: 10%;
+
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  
+    &:hover {
+      transform: translateY(-2px);
+    }
+  
 }
 
 .buttonAdd::before {
@@ -65,7 +74,8 @@
 .buttonEdit {
     height: 40px;
     border: 0;
-    background-color: #8B4513;
+    // background-color: #8B4513;
+    background-color: #2b6cb0;
     font-weight: bold;
     font-size: 1rem;
     border-radius: 0.3rem;

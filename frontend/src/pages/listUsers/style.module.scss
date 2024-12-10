@@ -48,16 +48,24 @@
 
 .buttonDetail {
     padding: 0.5rem 1rem;
-    background-color: #D41509; // Cor vermelha do botão
+    background-color: #FFC107; // Cor vermelha do botão
     color: white;
     font-weight: bold;
     border: none;
     border-radius: 0.3rem;
     cursor: pointer;
-    transition: background-color 0.3s;
+    // transition: background-color 0.3s;
+
+
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 
     &:hover {
         background-color: #D41509   ; // Cor mais escura no hover
+        color: black;
+        // background-color: $primary-hover;
+        transform: translateY(-2px);
+        
     }
 }
 

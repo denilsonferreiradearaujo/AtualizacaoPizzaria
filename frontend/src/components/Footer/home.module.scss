@@ -4,7 +4,7 @@
     color: #ffffff;
     padding: 15px 20px;
     text-align: center;
-    height: 5%;
+    height: 250px;
 }
 
 .footerContent {
@@ -35,22 +35,17 @@
 
 .socialContainer {
     text-align: center;
-    margin-top: -98px;
-}
-
-.socialContainer p {
-    margin-bottom: 15px;
+    margin-top: -80px;
 }
 
 .socialIcons {
     display: flex;
     gap: 22px;
-    margin-top: 35px;
+    margin-top: 16%;
     justify-content: center;
 }
 
 .rights {
-    margin-top: 20px;
     font-size: 14px;
     color: #cccccc;
 }

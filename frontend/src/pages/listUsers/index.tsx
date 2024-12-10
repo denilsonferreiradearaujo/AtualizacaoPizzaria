@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { Header } from '@/src/components/Header';
+import { Footer } from '../../components/Footer';
 import styles from './style.module.scss';
 import { canSSRAuth } from '@/src/utils/canSSRAuth';
 import { setupAPICliente } from '../../services/api';
@@ -96,6 +97,7 @@ export default function UserList() {
           onClose={handleCloseModal}
         />
       )}
+      <Footer />
     </>
   );
 };

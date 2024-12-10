@@ -1,35 +1,3 @@
-// import prismaClient from "../../prisma";
-
-// class ListAllPedidosService {
-//   async execute() {
-//     const pedidos = await prismaClient.pedido.findMany({
-//       include: {
-//         Pessoa: {
-//           select: {
-//             nome: true, // Trazer o nome da pessoa
-//           }
-//         },
-//         TaxaEntrega: {
-//           select: {
-//             valor: true, // Trazer o valor da taxa de entrega
-//           }
-//         },
-//         items: {
-//           include: {
-//             Produto: true, // Incluir informações do produto
-//           }
-//         }
-//       },
-//     });
-
-//     return pedidos;
-//   }
-// }
-
-// export { ListAllPedidosService };
-
-
-
 import prismaClient from "../../prisma";
 
 class ListAllPedidosService {

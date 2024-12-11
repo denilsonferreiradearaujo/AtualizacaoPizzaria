@@ -26,6 +26,7 @@ import { CreatePedidoController } from "./controllers/pedido/CreatePedidoControl
 import { ListAllPedidosController } from "./controllers/pedido/ListAllPedidosController";
 import { UpdatePedidoStatusController } from "./controllers/pedido/UpdatePedidoStatusController";
 import { DetailUserCheckoutController } from "./controllers/user/DetailUserCheckoutController";
+import { ListPedidoController } from "./controllers/pedido/ListPedidoController";
 
 // MiddleWares
 import { isAuthenticated } from "./middlewares/isAuthenticated";
@@ -66,7 +67,7 @@ router.delete("/taxaEntrega/:id", new DeleteTaxaEntregaController().handle);
 router.post("/createPedido", new CreatePedidoController().handle); // [RF007] - Solicitação de pedido via delivery
 router.get("/listPedidos", new ListAllPedidosController().handle); // [RF004] - Visualização de histórico de pedidos ( tela da produção )
 router.put("/pedido/status/:id", new UpdatePedidoStatusController().handle); // [RF023] - Atualização de pedido delivery
-
+router.get(`/pedido/:id`, new ListPedidoController().handle);
 // PDV
 
 export { router };

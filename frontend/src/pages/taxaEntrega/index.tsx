@@ -26,6 +26,7 @@ export default function TaxaEntrega() {
   async function fetchTaxaEntrega() {
     const apiCliente = setupAPICliente();
     const response = await apiCliente.get('/listTaxasEntrega');
+    console.log(response.data);
     setViewTaxaEntrega(response.data);
   }
 
@@ -34,17 +35,17 @@ export default function TaxaEntrega() {
   }, []);
 
   // Função para formatar o valor do preço
-  const formatPrice = (value: string): string => {
-    if (!value.trim()) return 'R$ 0,00'; // Retorna vazio caso o valor esteja vazio ou apenas espaços
-  
-    const cleanValue = value.replace(/\D/g, ''); // Remove qualquer coisa que não seja número
-    const numericValue = (parseInt(cleanValue, 10) / 100).toFixed(2); // Converte para número e ajusta a vírgula
-    return `R$ ${numericValue.replace('.', ',')}`;
-  };
+
+  const formatPrice = (value: string | number ): string => {
+    if (typeof value === 'string') {
+      value = parseFloat(value.replace(/\D/g, '')) /100;
+    }
+    return value ? `R$ ${value.toFixed(2).replace('.', ',')}` : 'R$ 0,00';
+  }
 
   // Função para preparar o preço para envio
   const parsePriceForSubmission = (price: string): string => {
-    return price.replace(/[^\d,]/g, '').replace(',', '.').replace('R$', '').trim();
+    return price.replace(/[^\d,]/g, '').replace(',', '.').trim();
   };
 
   async function handleRegister(event: FormEvent) {
@@ -94,18 +95,44 @@ export default function TaxaEntrega() {
     setIsModalOpen(false);
   };
 
-  const handleSaveTaxa = (updatedTaxa: TaxaEntrega) => {
+  // const handleSaveTaxa = async (updatedTaxa: TaxaEntrega) => {
+  //   const apiCliente = setupAPICliente();
+
+  //   apiCliente
+  //     .put(`/updateTaxaEntrega/${updatedTaxa.id}`, updatedTaxa)
+  //     .then(() => {
+  //       toast.success('Taxa de entrega atualizada com sucesso');
+  //       fetchTaxaEntrega(); // Atualiza a lista de taxas
+  //     })
+  //     .catch(() => {
+  //       toast.error('Erro ao atualizar a taxa de entrega');
+  //     });
+  // };
+
+  const handleSaveTaxa = async (updatedTaxa: TaxaEntrega) => {
     const apiCliente = setupAPICliente();
-    apiCliente
-      .put(`/updateTaxaEntrega/${updatedTaxa.id}`, updatedTaxa)
-      .then(() => {
-        toast.success('Taxa de entrega atualizada com sucesso');
-        fetchTaxaEntrega(); // Atualiza a lista de taxas
-      })
-      .catch(() => {
-        toast.error('Erro ao atualizar a taxa de entrega');
-      });
+  
+    try {
+      // Formata o valor antes de enviar
+      const formattedPrice = parsePriceForSubmission(updatedTaxa.valor);
+  
+      // Atualiza o objeto com o valor formatado
+      const updatedData = {
+        ...updatedTaxa,
+        valor: formattedPrice,
+      };
+  
+      // Envia os dados para o backend
+      await apiCliente.put(`/updateTaxaEntrega/${updatedTaxa.id}`, updatedData);
+  
+      toast.success('Taxa de entrega atualizada com sucesso');
+      fetchTaxaEntrega(); // Atualiza a lista de taxas
+    } catch (error) {
+      console.error(error);
+      toast.error('Erro ao atualizar a taxa de entrega');
+    }
   };
+  
 
   return (
     <>
@@ -156,7 +183,7 @@ export default function TaxaEntrega() {
               <li key={taxa.id} className={styles.listItem}>
                 <div className={styles.listItemContent}>
                   <p>Distância: {taxa.distanciaMin} - {taxa.distanciaMax} km</p>
-                  <p>Valor: {formatPrice(taxa.valor)}</p> {/* Exibe o valor formatado */}
+                  <p>Valor: {formatPrice(parseFloat(taxa.valor))}</p> {/* Exibe o valor formatado */}
                 </div>
                 <div className={styles.buttons}>
                   <button

@@ -7,7 +7,7 @@ interface OrderProps {
     id: string;
     numMesa: number;
     status: string;
-    items: { id: string; quantidade: number; Produto: { nome: string; descricao: string; }; }[];
+    items: { id: string; quantidade: number; Produto: { nome: string; descricao: string; preco: string | number; }; }[]; // Certificando que o preco pode ser string ou number
     valorTotal: number | string;
     dataCreate: Date;
     dataUpdate: Date;
@@ -27,11 +27,10 @@ export function ModalOrder({ isOpen, onRequestClose, order }: ModalOrderProps) {
             right: 'auto',
             bottom: 'auto',
             transform: 'translate(-50%, -50%)',
-            padding: '0', // Remove padding padrão
-            backgroundColor: 'transparent', // Mantém a estilização externa
+            padding: '0',
+            backgroundColor: 'transparent',
         },
     };
-    
 
     function formatCurrency(value: number | string): string {
         const numberValue = typeof value === 'string' ? parseFloat(value) : value;
@@ -64,12 +63,35 @@ export function ModalOrder({ isOpen, onRequestClose, order }: ModalOrderProps) {
                 </div>
 
                 <h3>Itens do Pedido:</h3>
-                {order.items.map(item => (
-                    <section key={item.id} className={styles.containerItem}>
-                        <span>{item.quantidade} - <strong>{item.Produto.nome}</strong></span>
-                        <span className={styles.description}>{item.Produto.descricao}</span>
-                    </section>
-                ))}
+                <div className={styles.itemsList}>
+                    {order.items.map(item => {
+                        const preco = typeof item.Produto.preco === 'string'
+                            ? parseFloat(item.Produto.preco)
+                            : item.Produto.preco;
+
+                        console.log('Preço do produto:', preco);  // Adicione isso para depuração
+
+                        const precoValido = isNaN(preco) ? 0 : preco;
+                        const totalItem = precoValido * item.quantidade;
+
+                        return (
+                            <section key={item.id} className={styles.containerItem}>
+                                <div className={styles.quantity}>
+                                    <span>Quantidade</span>
+                                    <strong>{item.quantidade}</strong>
+                                </div>
+                                <div className={styles.itemName}>
+                                    <strong>{item.Produto.nome}</strong>
+                                    <p className={styles.description}>{item.Produto.descricao}</p>
+                                </div>
+                                <div className={styles.itemPrice}>
+                                    <strong>R$ {formatCurrency(totalItem)}</strong>
+                                </div>
+                            </section>
+                        );
+                    })}
+
+                </div>
             </div>
         </Modal>
     );

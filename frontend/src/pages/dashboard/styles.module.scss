@@ -6,6 +6,11 @@
     display: flex;
     justify-content: space-between;
     flex-direction: column;
+
+    /* Melhora o espaçamento entre os elementos */
+    @media (max-width: 768px) {
+        padding: 0 1rem; /* Reduz o padding em telas menores */
+    }
 }
 
 .container h1 {
@@ -16,52 +21,36 @@
 .containerHeader {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    align-items: center; /* Centraliza os itens verticalmente */
 
     button {
         background: transparent;
         border: 0;
         margin-left: 1rem;
         margin-bottom: 3%;
+        cursor: pointer; /* Aplica o cursor de pointer ao botão */
     }
-}
-
-.listOrders {
-    display: flex;
-    flex-direction: column;
-    margin: 1rem 0;
-}
-
-.orderItem {
-    display: flex;
-    flex-direction: row;
-    background-color: var(--dark-900);
-    margin-bottom: 1rem;
-    align-items: center;
-    border-radius: 0.3rem;
-
-    button {
-        border: 0;
-        background: transparent;
-        font-size: 1.2rem;
-        color: var(--white);
-        height: 60px;
-        align-items: center;
-        display: flex;
-    }
-}
-
-.emptyList {
-    font-size: 1.2rem;
-    color: var(--gray-100);
 }
 
 .headColumns {
     display: flex;
     justify-content: space-between;
+    gap: 2rem; /* Aumentei o espaçamento entre as colunas */
+
+    /* Responsividade: ajusta as colunas em telas menores */
+    @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 2rem; /* Aumenta o espaço entre as colunas em telas menores */
+    }
 }
 
 .column {
     width: 48%;
+    /* Responsividade: ajusta a largura da coluna em telas menores */
+    @media (max-width: 768px) {
+        width: 100%; /* Coloca as colunas em 100% de largura em telas pequenas */
+    }
 }
 
 .card {
@@ -70,67 +59,92 @@
     background-color: #f9f9f9;
     border: 1px solid #ccc;
     border-radius: 8px;
-    padding: 10px 20px; /* Adiciona espaçamento lateral */
+    padding: 10px 20px;
     margin-bottom: 16px;
     font-weight: bold;
     transition: background-color 0.3s, transform 0.2s;
-    position: relative; /* Para o uso do pseudo-elemento */
+    position: relative;
+    cursor: pointer;
 
-    &.pending::before {
+    /* Linha de status (lateral) */
+    &.pending::before, &.completed::before, &.paid::before {
         content: '';
         position: absolute;
         left: 0;
         top: 0;
-        width: 8px; /* Largura da linha azul */
-        height: 100%; /* Altura total do card */
-        background-color: #007bff; /* Cor azul */
-        border-radius: 0.3rem 0 0 0.3rem; /* Arredondamento do canto */
+        width: 8px;
+        height: 100%;
+        border-radius: 0.3rem 0 0 0.3rem;
+    }
+
+    &.pending::before {
+        background-color: #e63946; /* Cor para pedidos em aberto (vermelho) */
     }
 
     &.completed::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 8px; /* Largura da linha verde */
-        height: 100%; /* Altura total do card */
-        background-color: #007bff; /* Cor verde */
-        border-radius: 0.3rem 0 0 0.3rem; /* Arredondamento do canto */
+        background-color: #f1c40f; /* Cor para pedidos prontos (amarelo) */
+    }
+
+    &.paid::before {
+        background-color: #2ecc71; /* Cor para pedidos pagos (verde) */
     }
 
     h3.cardTitle {
-        font-size: 1rem; /* Tamanho menor para ajustar o layout */
-        margin: 0; /* Remove o espaço em torno do título */
-        padding-left: 16px; /* Espaçamento entre o texto e a linha */
-        color: #333; /* Cor do texto */
+        font-size: 1.1rem; /* Ajusta o tamanho da fonte */
+        margin: 0;
+        padding-left: 16px;
+        color: #333;
+        flex-grow: 1; /* Faz o título ocupar o espaço restante */
     }
 
     .finishButton {
-        font-size: 0.9rem; /* Tamanho menor para o botão */
-        padding: 6px 10px; /* Ajusta o espaçamento do botão */
-        background-color: #3fffa3;
+        font-size: 0.9rem;
+        padding: 6px 10px;
+        background-color: #28da84;
         color: rgb(0, 0, 0);
         border: none;
         cursor: pointer;
         border-radius: 4px;
-        margin-left: auto; /* Faz o botão ficar à direita */
         transition: background-color 0.2s ease, transform 0.2s ease;
         box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-      
+        margin-left: auto;
+
         &:hover {
-            // background-color: #32d78d;
-            background-color: red;
+            background-color: #20905d;
             transform: translateY(-2px);
             color: rgb(255, 255, 255);
-
-  
         }
     }
 
     /* Efeito de hover */
     &:hover {
-        background-color: #e0e0e0; /* Cor ao passar o mouse */
-        transform: scale(1.02); /* Leve aumento de tamanho ao passar o mouse */
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra para dar destaque */
+        background-color: #e0e0e0;
+        transform: scale(1.02);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
+}
+
+.emptyList {
+    font-size: 1.2rem;
+    color: var(--gray-100);
+}
+
+/* Adicionando efeitos de transição nas colunas */
+.column {
+    transition: transform 0.3s ease;
+    /* Efeito de hover nas colunas */
+    &:hover {
+        transform: scale(1.02);
+    }
+}
+
+.time {
+    font-size: 15px;
+    color: #555;
+    margin-top: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35%;
+    text-align: center; /* Garante que o texto fique centralizado */
 }

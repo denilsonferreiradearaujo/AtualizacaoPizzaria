@@ -7,6 +7,9 @@ import { setupAPICliente } from '@/src/services/api';
 import { toast } from 'react-toastify';
 import { canSSRAuth } from '@/src/utils/canSSRAuth';
 
+import { FaEdit, FaTrash } from 'react-icons/fa';
+import { IoMdAddCircleOutline } from "react-icons/io";
+
 interface Categoria {
   id: number;
   nome: string;
@@ -92,8 +95,10 @@ export default function Category() {
               onChange={(e) => setNome(e.target.value)}
             />
 
-            <button className={styles.buttonAdd} type="submit">
-              Cadastrar
+            <button className={styles.buttonAdd} type="submit"
+            >
+            <IoMdAddCircleOutline />
+            Cadastrar
             </button>
           </form>
 
@@ -117,17 +122,27 @@ export default function Category() {
                       }}
                       className={styles.input}
                     />
-                    <button
+
+                    {/* botão edit */}
+                    {/* <button
                       className={styles.buttonEdit}
                       onClick={() => salvarEdicao(categoria.id, categoria.nome)}
                     >
                       Editar
+                    </button> */}
+                    <button
+                      className={styles.buttonEdit}
+                      onClick={() => salvarEdicao(categoria.id, categoria.nome)}
+                    >
+                      <FaEdit /> Editar
                     </button>
+
+                    {/* botão delete */}
                     <button
                       className={styles.buttonDelete} // Adicione uma classe de estilo se necessário
                       onClick={() => handleDelete(categoria.id)}
                     >
-                      Delete
+                      <FaTrash /> Delete
                     </button>
                   </div>
                 </li>

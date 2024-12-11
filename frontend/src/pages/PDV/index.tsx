@@ -1,95 +1,152 @@
-import { useState } from 'react';
-import styles from './styles.module.scss';
-import Head from 'next/head';
-import { Header } from '@/src/components/Header';
-import { Footer } from '@/src/components/Footer';
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { setupAPICliente } from "../../services/api";
+import Head from "next/head";
+import styles from "./styles.module.scss";
+import { Header } from "../../components/Header";
 
-interface Product {
-    id: number;
-    name: string;
-    price: number;
-}
-
-const PDV: React.FC = () => {
-    const [products] = useState<Product[]>([
-        { id: 1, name: 'Produto A', price: 10.0 },
-        { id: 2, name: 'Produto B', price: 15.0 },
-        { id: 3, name: 'Produto C', price: 20.0 },
-    ]);
-
-    const [cart, setCart] = useState<Product[]>([]);
-
-    const addToCart = (product: Product) => {
-        setCart([...cart, product]);
-    };
-
-    const removeFromCart = (id: number) => {
-        setCart(cart.filter((product) => product.id !== id));
-    };
-
-    const calculateTotal = () => {
-        return cart.reduce((total, product) => total + product.price, 0).toFixed(2);
-    };
-
-    const finalizeSale = () => {
-        alert('Venda finalizada com sucesso!');
-        setCart([]);
-    };
-
-    return (
-        <>
-            <Header />
-            <Head>
-                <title>Lista de Usuários</title>
-            </Head>
-            <div className={styles.container}>
-                <header className={styles.header}>PDV - Sistema de Vendas</header>
-                <div className={styles.content}>
-                    <div className={styles.productList}>
-                        <h2>Produtos</h2>
-                        {products.map((product) => (
-                            <div key={product.id} className={styles.productItem}>
-                                <span>{product.name}</span>
-                                <span>R$ {product.price.toFixed(2)}</span>
-                                <button
-                                    className={styles.button}
-                                    onClick={() => addToCart(product)}
-                                >
-                                    Adicionar
-                                </button>
-                            </div>
-                        ))}
-                    </div>
-                    <div className={styles.cart}>
-                        <h2>Carrinho</h2>
-                        {cart.map((product, index) => (
-                            <div key={index} className={styles.cartItem}>
-                                <span>{product.name}</span>
-                                <span>R$ {product.price.toFixed(2)}</span>
-                                <button
-                                    className={styles.button}
-                                    onClick={() => removeFromCart(product.id)}
-                                >
-                                    Remover
-                                </button>
-                            </div>
-                        ))}
-                        <div className={styles.total}>
-                            Total: R$ {calculateTotal()}
-                        </div>
-                        <button
-                            className={styles.finalizeButton}
-                            onClick={finalizeSale}
-                            disabled={cart.length === 0}
-                        >
-                            Finalizar Venda
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <Footer />
-        </>
-    );
+type ProductProps = {
+  id: string;
+  nome: string;
+  quantidade: number;
+  valorUnitario: number;
 };
 
-export default PDV;
+type OrderDetails = {
+  id: number;
+  numMesa: number;
+  produtos: ProductProps[];
+  valorTotal: number;
+};
+
+export default function PDV() {
+  const router = useRouter();
+  const { id } = router.query;
+
+  const [orderDetails, setOrderDetails] = useState<OrderDetails>({
+    id: 0,
+    numMesa: 0,
+    produtos: [],
+    valorTotal: 0,
+  });
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchOrderDetails() {
+      if (!id || Array.isArray(id)) return;
+
+      try {
+        const apiCliente = setupAPICliente();
+        const response = await apiCliente.get(`/pedido/${id}`);
+        const fetchedOrder = response.data;
+
+        // Calcular o valor total
+        const total = fetchedOrder.produtos.reduce(
+          (sum: number, produto: ProductProps) => {
+            return sum + produto.quantidade * produto.valorUnitario;
+          },
+          0
+        );
+
+        setOrderDetails({
+          ...fetchedOrder,
+          valorTotal: total, // Atualiza o valor total
+        });
+
+        setError(null);
+      } catch (error) {
+        console.error("Erro ao buscar detalhes do pedido:", error);
+        setError("Não foi possível carregar os detalhes do pedido.");
+      }
+    }
+
+    fetchOrderDetails();
+  }, [id]);
+
+  if (error) {
+    return <p className={styles.error}>{error}</p>;
+  }
+
+  // Função para formatar valores com vírgula
+  const formatCurrency = (value: number) => {
+    return value.toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
+  };
+
+  // Função para mudar o status do pedido para "Pago"
+  const handlePayment = async () => {
+    if (!id || Array.isArray(id)) return;
+
+    try {
+      const apiCliente = setupAPICliente();
+      await apiCliente.put(`/pedido/status/${id}`, { status: "Pago" });
+
+      // Redireciona para o dashboard após a atualização do status
+      router.push("/dashboard");
+    } catch (error) {
+      console.error("Erro ao atualizar o status do pedido:", error);
+      setError("Não foi possível atualizar o status do pedido.");
+    }
+  };
+
+  return (
+    <>
+      <Head>
+        <title>
+          PDV - Pedido{" "}
+          {orderDetails.numMesa ? `Mesa ${orderDetails.numMesa}` : "Delivery"}
+        </title>
+      </Head>
+      <div>
+        <Header />
+        <main className={styles.container}>
+          <h1>
+            {orderDetails.numMesa
+              ? `Mesa ${orderDetails.numMesa}`
+              : "Pedido Delivery"}
+          </h1>
+
+          <div className={styles.orderDetails}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th>Produto</th>
+                  <th>Quantidade</th>
+                  <th>Valor Unitário</th>
+                  <th>Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                {orderDetails.produtos.map((produto) => (
+                  <tr key={produto.id}>
+                    <td>{produto.nome}</td>
+                    <td>{produto.quantidade}</td>
+                    <td>{formatCurrency(Number(produto.valorUnitario) || 0)}</td>
+                    <td>
+                      {formatCurrency(
+                        (produto.quantidade || 0) * (Number(produto.valorUnitario) || 0)
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <div className={styles.totalContainer}>
+              <h2>Total: {formatCurrency(orderDetails.valorTotal || 0)}</h2>
+            </div>
+
+            <button
+              className={styles.finishButton}
+              onClick={handlePayment} // Chama a função para mudar o status para "Pago"
+            >
+              Finalizar Pagamento
+            </button>
+          </div>
+        </main>
+      </div>
+    </>
+  );
+}

@@ -25,6 +25,7 @@ import { DeleteTaxaEntregaController } from "./controllers/taxaEntrega/DeleteTax
 import { CreatePedidoController } from "./controllers/pedido/CreatePedidoController";
 import { ListAllPedidosController } from "./controllers/pedido/ListAllPedidosController";
 import { UpdatePedidoStatusController } from "./controllers/pedido/UpdatePedidoStatusController";
+import { DetailUserCheckoutController } from "./controllers/user/DetailUserCheckoutController";
 
 // MiddleWares
 import { isAuthenticated } from "./middlewares/isAuthenticated";
@@ -36,6 +37,7 @@ const router = Router();
 router.post("/users", new CreateUserController().handle); // Cadastra um usuário na plataforma
 router.post("/login", new AuthUserController().handle); // loga o usuário na plataforma
 router.get("/users/:pessoa_id", new DetailUserController().handle); // Exibe os dados do usuário
+router.get("/users/cpf/:cpf", new DetailUserCheckoutController().handle);
 router.put("/users/:pessoa_id", new UpdateUserController().handle); // Atualiza os dados do usuário
 router.get("/listUsers", new DetailAllUserController().handle); // Todos os usuarios
 router.post("/forgotPassword", new ForgotPasswordController().handle);

@@ -24,7 +24,7 @@ export const TaxaEntregaEditModal: React.FC<TaxaEntregaEditModalProps> = ({ taxa
         if (!value.trim()) return 'R$ 0,00'; // Retorna vazio caso o valor esteja vazio ou apenas espaços
 
         // Remove qualquer coisa que não seja número
-        const cleanValue = value.replace(/\D/g, '');
+        const cleanValue = parseFloat(value.replace(/\D/g, ''));
         // Converte para número e ajusta a vírgula
         const numericValue = (parseInt(cleanValue, 10) / 100).toFixed(2);
         return `R$ ${numericValue.replace('.', ',')}`;
@@ -40,7 +40,7 @@ export const TaxaEntregaEditModal: React.FC<TaxaEntregaEditModalProps> = ({ taxa
         let rawValue = e.target.value;
 
         // Remove o 'R$' para manipulação interna
-        rawValue = rawValue.replace('R$', '').trim();
+        rawValue = rawValue.replace(/R\$\s?/, '').trim();
 
         // Apenas números e vírgulas são permitidos
         const filteredValue = rawValue.replace(/[^\d,]/g, '');

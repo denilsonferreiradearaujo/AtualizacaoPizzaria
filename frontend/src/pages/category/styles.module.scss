@@ -41,7 +41,7 @@
 .buttonAdd {
     height: 40px;
     border: 0;
-    background-color: #3fffa3;
+    background-color: #2ecc71;
     font-weight: bold;
     font-size: 1rem;
     border-radius: 0.3rem;
@@ -54,6 +54,8 @@
     justify-content: center;
     padding: 0; /* Remove o padding interno */
     width: 10%;
+    gap: 8px;
+
 
     transition: background-color 0.2s ease, transform 0.2s ease;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
@@ -67,7 +69,7 @@
 }
 
 .buttonAdd::before {
-    content: '💾'; /* Aqui você pode usar o ícone desejado */
+    // content: '💾'; /* Aqui você pode usar o ícone desejado */
     font-size: 1.2rem;
     display: inline-block;
     margin-right: 0.5rem;
@@ -89,6 +91,7 @@
     justify-content: center;
     padding: 0; /* Remove o padding interno */
     // width: 10%;
+    gap: 8px;
 
     transition: background-color 0.2s ease, transform 0.2s ease;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
@@ -100,9 +103,8 @@
     }
 }
 
-// 🔍✒️🖊️📝
 .buttonEdit::before {
-    content: '✒️'; /* Aqui você pode usar o ícone desejado */
+    // content: '✒️'; /* Aqui você pode usar o ícone desejado */
     font-size: 1.2rem;
     display: inline-block;
     margin-right: 0.5rem;
@@ -124,6 +126,8 @@
     justify-content: center;
     padding: 0; /* Remove o padding interno */
     // width: 10%;
+    gap: 8px;
+
 
     transition: background-color 0.2s ease, transform 0.2s ease;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
@@ -135,7 +139,7 @@
 }
 
 .buttonDelete::before {
-    content: '🗑️'; /* Ícone de lixeira */
+    // content: '🗑️'; /* Ícone de lixeira */
     font-size: 1.9rem;
     display: inline-block;
    // margin-right: 0.5rem;
@@ -151,6 +155,8 @@
     border-radius: 0.3rem;
     color: var(--dark-700);
     margin-top: 10px;
+    gap: 8px;
+
 }
 
 .list {

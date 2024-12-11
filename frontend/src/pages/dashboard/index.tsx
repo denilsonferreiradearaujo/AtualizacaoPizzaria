@@ -6,13 +6,12 @@ import { Header } from "@/src/components/Header";
 import { FiRefreshCcw } from "react-icons/fi";
 import { setupAPICliente } from '../../services/api';
 import { ModalOrder } from '../../components/ModalOrder';
-import { redirect } from "next/dist/server/api-utils";
-import { link } from "fs";
 
 type OrderProps = {
-    id: string,
-    numMesa: number,
-    status: string,
+    id: string;
+    numMesa: number;
+    status: string;
+    dataCreate: string; // Alterado para string, caso a data venha como string
 };
 
 interface HomeProps {
@@ -24,16 +23,18 @@ export default function DashBoard({ orders }: HomeProps) {
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState<OrderProps | null>(null);
 
+    // Função para atualizar os pedidos da lista
     async function handleRefresh() {
         const apiCliente = setupAPICliente();
         const response = await apiCliente.get('/listPedidos');
         setOrderList(response.data);
     }
 
+    // Alteração para definir o status como "Pronto"
     async function handleFinishItem(id: string) {
         const apiCliente = setupAPICliente();
-        await apiCliente.put(`/pedido/status/${id}`, { status: "Finalizado" });
-        handleRefresh();
+        await apiCliente.put(`/pedido/status/${id}`, { status: "Pronto" });
+        handleRefresh(); // Atualiza a lista de pedidos após a alteração
     }
 
     function handleOpenModal(order: OrderProps) {
@@ -54,7 +55,8 @@ export default function DashBoard({ orders }: HomeProps) {
     }, []);
 
     const pedidosEmAberto = orderList.filter(item => item.status === 'Aberto');
-    const pedidosFinalizados = orderList.filter(item => item.status === 'Finalizado');
+    const pedidosProntos = orderList.filter(item => item.status === 'Pronto');
+    const pedidosPagos = orderList.filter(item => item.status === 'Pago'); // Filtro para pedidos pagos
 
     return (
         <>
@@ -81,17 +83,23 @@ export default function DashBoard({ orders }: HomeProps) {
                                 pedidosEmAberto.map(item => (
                                     <section
                                         key={item.id}
-                                        className={`${styles.card} ${styles.pending}`} // Classe para pedidos em aberto
+                                        className={`${styles.card} ${styles.pending}`}
                                         onClick={() => handleOpenModal(item)}
                                         style={{ cursor: 'pointer' }}
                                     >
                                         <h3 className={styles.cardTitle}>
                                             {item.numMesa === 0 ? "Pedido Delivery" : `Mesa ${item.numMesa}`}
                                         </h3>
+
+                                        {/* Exibindo apenas o horário */}
+                                        <span className={styles.time}>
+                                            {new Date(item.dataCreate).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+                                        </span>
+
                                         <button
                                             className={styles.finishButton}
                                             onClick={(e) => {
-                                                e.stopPropagation(); // Impede que o clique no botão finalize o pedido e abra o modal ao mesmo tempo
+                                                e.stopPropagation();
                                                 handleFinishItem(item.id);
                                             }}
                                         >
@@ -104,28 +112,54 @@ export default function DashBoard({ orders }: HomeProps) {
 
                         <div className={styles.column}>
                             <h2>Pedidos Prontos:</h2>
-                            {pedidosFinalizados.length === 0 ? (
-                                <span className={styles.emptyList}>Nenhum pedido Pronto...</span>
+                            {pedidosProntos.length === 0 ? (
+                                <span className={styles.emptyList}>Nenhum pedido pronto...</span>
                             ) : (
-                                pedidosFinalizados.map(item => (
+                                pedidosProntos.map(item => (
                                     <section
                                         key={item.id}
-                                        className={`${styles.card} ${styles.completed}`} // Classe para pedidos finalizados
-                                        onClick={() => handleOpenModal(item)} // Adiciona a ação de clicar para abrir o modal
+                                        className={`${styles.card} ${styles.completed}`}
+                                        onClick={() => handleOpenModal(item)}
                                         style={{ cursor: 'pointer' }}
                                     >
                                         <h3 className={styles.cardTitle}>
                                             {item.numMesa === 0 ? "Pedido Delivery" : `Mesa ${item.numMesa}`}
                                         </h3>
+                                        <span className={styles.time}>
+                                            {new Date(item.dataCreate).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+                                        </span>
                                         <button
                                             className={styles.finishButton}
                                             onClick={(e) => {
-                                                e.stopPropagation(); // Impede que o clique no botão finalize o pedido e abra o modal ao mesmo tempo
+                                                e.stopPropagation();
                                                 window.location.href = `/PDV?id=${item.id}`;
                                             }}
                                         >
                                             Pagamento
                                         </button>
+                                    </section>
+                                ))
+                            )}
+                        </div>
+
+                        <div className={styles.column}>
+                            <h2>Pedidos Pagos:</h2>
+                            {pedidosPagos.length === 0 ? (
+                                <span className={styles.emptyList}>Nenhum pedido pago...</span>
+                            ) : (
+                                pedidosPagos.map(item => (
+                                    <section
+                                        key={item.id}
+                                        className={`${styles.card} ${styles.paid}`}
+                                        onClick={() => handleOpenModal(item)}
+                                        style={{ cursor: 'pointer' }}
+                                    >
+                                        <h3 className={styles.cardTitle}>
+                                            {item.numMesa === 0 ? "Pedido Delivery" : `Mesa ${item.numMesa}`}
+                                        </h3>
+                                        <span className={styles.time}>
+                                            {new Date(item.dataCreate).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+                                        </span>
                                     </section>
                                 ))
                             )}

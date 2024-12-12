@@ -97,9 +97,12 @@ export default function SignUp() {
       <Head>
         <title>Faça seu cadastro agora!</title>
       </Head>
-      <div className={styles.containerCenter}> 
+      <div className={styles.containerCenter}>
         <div className={styles.login}>
-          <Image src={logoImg} alt="Logo Pizzaria "/>
+          {/* <Image src={logoImg} alt="Logo Pizzaria "/> */}
+          <a href="/">
+            <Image src={logoImg} alt="Logo Pizzaria" />
+          </a>
           <h1 className={styles.title}>Criando sua conta</h1>
 
           <form onSubmit={handleSignUp} className={styles.form}>

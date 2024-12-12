@@ -51,7 +51,10 @@ export default function Home() {
         <title>Pizzaria - Faça seu login</title>
       </Head>
       <div className={styles.containerCenter}>
-        <Image src={logoImg} alt="Logo Pizzaria "/>
+        {/* <Image src={logoImg} alt="Logo Pizzaria "/> */}
+        <a href="/">
+            <Image src={logoImg} alt="Logo Pizzaria" />
+          </a>
 
         <div className={styles.login}>
           <form onSubmit={handleLogin}>
